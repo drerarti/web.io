@@ -1,61 +1,27 @@
-
 <!DOCTYPE html>
 <html lang="es">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Panel de Administración</title>
-  <link rel="stylesheet" href="admin.css">
+  <title>Panel Admin</title>
+  <link rel="stylesheet" href="css/admin.css">
 </head>
 <body>
-  <h1>Panel de Administración</h1>
-
-  <!-- Formulario para agregar terrenos -->
+  <h2>Panel de Administración</h2>
   <form id="form-terreno">
-    <input type="text" id="titulo" placeholder="Título"><br>
-    <input type="text" id="medidas" placeholder="Medidas"><br>
-    <input type="text" id="area" placeholder="Área en m²"><br>
-    <input type="text" id="mapa" placeholder="URL de mapa"><br>
-    <input type="file" id="imagenes" multiple><br>
-    <textarea id="descripcion" placeholder="Descripción"></textarea><br>
-    <textarea id="documentos" placeholder="Documentos"></textarea><br>
-    <textarea id="formasPago" placeholder="Formas de pago"></textarea><br>
-    <textarea id="acceso" placeholder="Acceso"></textarea><br>
+    <input type="text" id="titulo" placeholder="Título" required />
+    <input type="text" id="medidas" placeholder="Medidas" required />
+    <input type="text" id="area" placeholder="Área en m²" required />
+    <input type="url" id="mapa" placeholder="Link Google Maps" required />
+    <input type="file" id="imagenes" multiple />
+    <textarea id="descripcion" placeholder="Descripción"></textarea>
+    <textarea id="documentos" placeholder="Documentos requeridos"></textarea>
+    <textarea id="formaPago" placeholder="Forma de pago"></textarea>
+    <textarea id="extras" placeholder="Extras"></textarea>
     <button type="submit">Guardar terreno</button>
   </form>
-
-  <h2>Terrenos guardados</h2>
-  <div id="lista-terrenos"></div>
-
-  <!-- Firebase SDKs (compat) -->
-  <script src="https://www.gstatic.com/firebasejs/10.11.0/firebase-app-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/10.11.0/firebase-auth-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/10.11.0/firebase-firestore-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/10.11.0/firebase-storage-compat.js"></script>
-
-  <script>
-    const firebaseConfig = {
-      apiKey: "AIzaSyBxK_0Fa7OS5vgHc8SuHhDQBqvpK0uN_Pk",
-      authDomain: "aylluweb-f9250.firebaseapp.com",
-      projectId: "aylluweb-f9250",
-      storageBucket: "aylluweb-f9250.appspot.com",
-      messagingSenderId: "628363659588",
-      appId: "1:628363659588:web:d2124d4537a0c2af392f11"
-    };
-
-    firebase.initializeApp(firebaseConfig);
-    const db = firebase.firestore();
-    const storage = firebase.storage();
-  </script>
-
-  <!-- Script personalizado -->
-  <script src="admin_firebase_compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/10.11.0/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/10.11.0/firebase-auth-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/10.11.0/firebase-firestore-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/10.11.0/firebase-storage-compat.js"></script>
-
-<script src="firebase-init.js"></script>
-<script src="admin_fixed.js"></script>
+  <div id="terrenos"></div>
+  <script type="module" src="js/firebase-init.js"></script>
+  <script type="module" src="js/admin.js"></script>
 </body>
 </html>

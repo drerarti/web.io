@@ -1,63 +1,30 @@
-document.getElementById("guardar-btn").addEventListener("click", function (e) {
-  e.preventDefault();
-  guardarTerreno();
-});
+import { db, storage } from './firebase-init.js';
+import { collection, addDoc, getDocs } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore.js";
+import { ref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-storage.js";
 
-function guardarTerreno() {
+document.getElementById("form-terreno").addEventListener("submit", async (e) => {
+  e.preventDefault();
   const titulo = document.getElementById("titulo").value;
   const medidas = document.getElementById("medidas").value;
   const area = document.getElementById("area").value;
-  const ubicacion = document.getElementById("mapa").value;
+  const mapa = document.getElementById("mapa").value;
   const descripcion = document.getElementById("descripcion").value;
   const documentos = document.getElementById("documentos").value;
-  const formasPago = document.getElementById("formasPago").value;
-  const beneficios = document.getElementById("acceso").value;
+  const formaPago = document.getElementById("formaPago").value;
+  const extras = document.getElementById("extras").value;
   const imagenes = document.getElementById("imagenes").files;
 
-  const id = db.collection("terrenos").doc().id;
-  const terreno = {
-    titulo,
-    medidas,
-    area,
-    ubicacion,
-    descripcion,
-    documentos,
-    formasPago,
-    beneficios,
-    imagenes: [],
-    fecha: new Date()
-  };
-
-  const tareas = [];
-  for (let i = 0; i < imagenes.length; i++) {
-    const archivo = imagenes[i];
-    const ref = storage.ref(`terrenos/${id}/img${i + 1}`);
-    tareas.push(ref.put(archivo).then(snap => snap.ref.getDownloadURL()));
+  const urls = [];
+  for (const file of imagenes) {
+    const imgRef = ref(storage, `terrenos/${file.name}`);
+    await uploadBytes(imgRef, file);
+    const url = await getDownloadURL(imgRef);
+    urls.push(url);
   }
 
-  Promise.all(tareas).then(urls => {
-    terreno.imagenes = urls;
-    return db.collection("terrenos").doc(id).set(terreno);
-  }).then(() => {
-    alert("Terreno guardado correctamente.");
-    document.getElementById("form-terreno").reset();
-    cargarTerrenos();
-  }).catch(err => {
-    console.error("Error al guardar:", err);
-    alert("Ocurrió un error.");
+  await addDoc(collection(db, "terrenos"), {
+    titulo, medidas, area, mapa, descripcion, documentos, formaPago, extras, imagenes: urls
   });
-}
 
-function cargarTerrenos() {
-  const lista = document.getElementById("lista-terrenos");
-  lista.innerHTML = "";
-  db.collection("terrenos").orderBy("fecha", "desc").get().then(snapshot => {
-    snapshot.forEach(doc => {
-      const t = doc.data();
-      const div = document.createElement("div");
-      div.className = "terreno";
-      div.innerHTML = `<h3>${t.titulo}</h3><p>${t.descripcion}</p>`;
-      lista.appendChild(div);
-    });
-  });
-}
+  alert("Terreno guardado correctamente");
+});

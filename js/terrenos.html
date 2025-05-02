@@ -1,0 +1,29 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Terrenos</title>
+    <link rel="stylesheet" href="css/terrenos.css">
+</head>
+<body>
+    <h1>Lista de Terrenos</h1>
+    <div id="filtros">
+        <label>Filtrar por estado:
+            <select id="estadoFiltro">
+                <option value="todos">Todos</option>
+                <option value="disponible">Disponible</option>
+                <option value="reservado">Reservado</option>
+                <option value="vendido">Vendido</option>
+            </select>
+        </label>
+    </div>
+    <div id="terrenos-container"></div>
+
+    <script src="https://www.gstatic.com/firebasejs/10.11.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.11.0/firebase-firestore-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.11.0/firebase-storage-compat.js"></script>
+    <script src="js/firebase-init.js"></script>
+    <script src="js/terrenos.js"></script>
+</body>
+</html>

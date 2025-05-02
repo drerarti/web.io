@@ -1,13 +1,21 @@
+// Reemplaza con tu configuración real
+import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js";
+import { getAuth } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-auth.js";
+import { getFirestore } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore.js";
+import { getStorage } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-storage.js";
+
 const firebaseConfig = {
-  apiKey: "AIzaSyBxK_0Fa7OS5vgHc8SUhHDQBqvpK0uN_Pk",
-  authDomain: "aylluweb-f9250.firebaseapp.com",
-  projectId: "aylluweb-f9250",
-  storageBucket: "aylluweb-f9250.appspot.com",
-  messagingSenderId: "628363659588",
-  appId: "1:628363659588:web:d2124d4537a0c2af392f11"
+  apiKey: "TU_API_KEY",
+  authDomain: "TU_DOMINIO.firebaseapp.com",
+  projectId: "TU_PROJECT_ID",
+  storageBucket: "TU_BUCKET.appspot.com",
+  messagingSenderId: "SENDER_ID",
+  appId: "APP_ID"
 };
 
-firebase.initializeApp(firebaseConfig);
-const auth = firebase.auth();
-const db = firebase.firestore();
-const storage = firebase.storage();
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+const db = getFirestore(app);
+const storage = getStorage(app);
+
+export { auth, db, storage };

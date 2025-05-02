@@ -1,25 +1,16 @@
-function iniciarSesion() {
-  const email = document.getElementById('email').value;
-  const password = document.getElementById('password').value;
+import { auth } from './firebase-init.js';
+import { signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-auth.js";
 
-  auth.signInWithEmailAndPassword(email, password)
-    .then(userCredential => {
-      const email = userCredential.user.email;
-      return db.collection("usuarios").doc(email).get();
+window.iniciarSesion = function () {
+  const email = document.getElementById("email").value;
+  const password = document.getElementById("password").value;
+
+  signInWithEmailAndPassword(auth, email, password)
+    .then(() => {
+      alert("Login exitoso");
+      window.location.href = "admin.html";
     })
-    .then(doc => {
-      if (!doc.exists) {
-        alert("No tiene un rol asignado.");
-        return;
-      }
-      const rol = doc.data().rol;
-      localStorage.setItem("usuarioLogueado", email);
-      localStorage.setItem("rol", rol);
-      if (rol === "arquitecto" || rol === "admin") {
-        window.location.href = "admin.html";
-      } else {
-        window.location.href = "terrenos.html";
-      }
-    })
-    .catch(err => alert("Error al iniciar sesión: " + err.message));
+    .catch((error) => {
+      alert("Error al iniciar sesión: " + error.message);
+    });
 }
