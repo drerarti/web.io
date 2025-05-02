@@ -84,27 +84,53 @@
 
   <!-- Formulario -->
   <div class="contenedor">
-    <h2>Agregar Terreno</h2>
-    <input type="text" id="titulo" placeholder="Título del terreno" />
-    <input type="text" id="medidas" placeholder="Medidas (ej: 10x20)" />
-    <input type="number" id="area" placeholder="Área en m²" min="1" step="any" oninput="validarNumero(this)" />
-    <input type="text" id="ubicacion" placeholder="Ubicación (URL de Google Maps)" />
-    <input type="file" id="imagenes" accept="image/*" multiple />
-    <textarea id="descripcion" placeholder="Descripción del terreno"></textarea>
-    <textarea id="documentacion" placeholder="Documentos disponibles"></textarea>
-    <textarea id="pago" placeholder="Modalidades de pago"></textarea>
-    <textarea id="beneficios" placeholder="Beneficios de ser socio"></textarea>
-    <label for="archivoDocumentacion">Subir documentación (PDF, imagen, Excel, etc.):</label>
-<input type="file" id="archivoDocumentacion" accept=".pdf,.jpg,.jpeg,.png,.xlsx,.xls,.docx,.doc" />
-    <button id="guardar-btn" onclick="guardarTerreno()">Guardar terreno</button>
-  </div>
+    <!-- FORMULARIO: AGREGAR TERRENO -->
+<form id="form-terreno">
+  <input type="text" id="nombre" placeholder="Nombre del terreno" required />
+  <input type="text" id="dimension" placeholder="Dimensiones" required />
+  <input type="number" id="precio" placeholder="Precio" required />
+  <input type="text" id="ubicacion" placeholder="Ubicación (link Maps)" required />
+  <input type="text" id="estado" placeholder="Estado (disponible, reservado, vendido)" required />
+  <input type="text" id="departamento" placeholder="Departamento" required />
+  <input type="text" id="provincia" placeholder="Provincia" required />
+  <input type="text" id="distrito" placeholder="Distrito" required />
+  <input type="file" id="imagen" accept="image/*" multiple required />
+  <input type="file" id="archivoDocumentacion" accept=".pdf,.jpg,.jpeg,.png,.xlsx,.xls" multiple />
+  <input type="text" id="titulo" placeholder="Título del terreno" required />
+<input type="text" id="medidas" placeholder="Medidas" required />
+<input type="number" id="area" placeholder="Área (m²)" required />
+<input type="text" id="descripcion" placeholder="Descripción" required />
+<input type="text" id="pago" placeholder="Condiciones de pago" />
+<input type="text" id="beneficios" placeholder="Beneficios adicionales" />
+<input type="file" id="imagenes" accept="image/*" multiple />
+<input type="text" id="documentacion" placeholder="Documentación (URL o nombre de archivo)" />
+  <button type="submit" id="guardar-btn">Guardar terreno</button>
+</form>
 
+  </div>
+  <div id="lista-terrenos"></div>
   <!-- Terrenos cargados -->
   <div class="contenedor">
     <h2>Terrenos guardados</h2>
     <div id="contenedor-terrenos"></div>
   </div>
-
+<!-- TABLA PARA EXPORTAR -->
+<table>
+  <thead>
+    <tr>
+      <th>Nombre</th>
+      <th>Dimensión</th>
+      <th>Precio</th>
+      <th>Ubicación</th>
+      <th>Estado</th>
+      <th>Departamento</th>
+      <th>Provincia</th>
+      <th>Distrito</th>
+    </tr>
+  </thead>
+  <tbody id="tabla-body"></tbody>
+</table>
+<div id="lista-admin"></div>
   <!-- Firebase DKs -->
   
   <script src="https://www.gstatic.com/firebasejs/10.11.0/firebase-app-compat.js"></script>
