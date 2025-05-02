@@ -3,12 +3,145 @@
 <head>
   <meta charset="UTF-8">
   <title>Gestión de Usuarios</title>
-  <link rel="stylesheet" href="css/usuarios.css">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f3f5f9;
+      margin: 0;
+      padding: 20px;
+    }
+    h1 {
+      text-align: center;
+      color: #2e7d32;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 20px;
+    }
+    th, td {
+      border: 1px solid #ddd;
+      padding: 10px;
+      text-align: center;
+    }
+    th {
+      background-color: #c8e6c9;
+    }
+    button {
+      background: #4caf50;
+      color: white;
+      border: none;
+      padding: 6px 12px;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+    button:hover {
+      background: #388e3c;
+    }
+    .warning {
+      color: red;
+      font-weight: bold;
+      text-align: center;
+      margin-top: 20px;
+    }
+  </style>
 </head>
 <body>
-  <h2>Panel de Usuarios</h2>
-  <div id="usuarios-lista"></div>
-  <script type="module" src="js/firebase-init.js"></script>
-  <script type="module" src="js/usuarios.js"></script>
+  <h1>Panel de Gestión de Usuarios</h1>
+  <div id="warning" class="warning"></div>
+  <table id="tablaUsuarios">
+    <thead>
+      <tr>
+        <th>Email</th>
+        <th>Rol</th>
+        <th>Modificar Rol</th>
+      </tr>
+    </thead>
+    <tbody></tbody>
+  </table>
+
+  <!-- Firebase -->
+  <script src="https://www.gstatic.com/firebasejs/10.11.0/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.11.0/firebase-firestore.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.11.0/firebase-auth.js"></script>
+  <script>
+    const firebaseConfig = {
+      apiKey: "AIzaSyBxK_0Fa7OS5vgHc8SuHhDQBqvpK0uN_Pk",
+  authDomain: "aylluweb-f9250.firebaseapp.com",
+  projectId: "aylluweb-f9250",
+  storageBucket: "aylluweb-f9250.firebasestorage.app",
+  messagingSenderId: "628363659588",
+  appId: "1:628363659588:web:d2124d4537a0c2af392f11"
+    };
+    firebase.initializeApp(firebaseConfig);
+    const db = firebase.firestore();
+    const auth = firebase.auth();
+
+    const usuario = localStorage.getItem("usuarioLogueado");
+    const rol = localStorage.getItem("rol");
+
+    if (!usuario || rol !== "arquitecto") {
+      document.getElementById("warning").textContent = "Acceso denegado. Solo arquitectos autorizados pueden ver esta página.";
+      document.getElementById("tablaUsuarios").style.display = "none";
+    } else {
+      cargarUsuarios();
+    }
+
+    function cargarUsuarios() {
+      const tabla = document.querySelector("#tablaUsuarios tbody");
+      tabla.innerHTML = "";
+
+      db.collection("usuarios").get().then(snapshot => {
+        snapshot.forEach(doc => {
+          const data = doc.data();
+          const tr = document.createElement("tr");
+
+          tr.innerHTML = `
+            <td>${doc.id}</td>
+            <td>${data.rol}</td>
+            <td>
+  <select id="select-${doc.id}">
+    <option value="usuario" ${data.rol === 'usuario' ? 'selected' : ''}>Usuario</option>
+    <option value="admin" ${data.rol === 'admin' ? 'selected' : ''}>Admin</option>
+    <option value="arquitecto" ${data.rol === 'arquitecto' ? 'selected' : ''}>Arquitecto</option>
+  </select>
+  <button onclick="actualizarRol('${doc.id}')">Actualizar</button>
+  <button onclick="eliminarUsuario('${doc.id}')\">Eliminar</button>
+</td>
+
+          `;
+
+          tabla.appendChild(tr);
+        });
+      });
+    }
+
+    function actualizarRol(email) {
+      const nuevoRol = document.getElementById(`select-${email}`).value;
+      db.collection("usuarios").doc(email).set({ rol: nuevoRol })
+        .then(() => {
+          alert("Rol actualizado para " + email);
+          cargarUsuarios();
+        })
+        .catch(err => {
+          alert("Error al actualizar: " + err.message);
+        });
+    }
+    function eliminarUsuario(email) {
+  if (!confirm(`¿Seguro que deseas eliminar al usuario ${email}?`)) return;
+
+  // Eliminar de Firestore
+  db.collection("usuarios").doc(email).delete()
+    .then(() => {
+      alert(`Usuario ${email} eliminado de Firestore`);
+      cargarUsuarios();
+    })
+    .catch(err => alert("Error eliminando usuario: " + err.message));
+
+  // NOTA: No se puede eliminar de Authentication directamente desde el cliente por seguridad.
+}
+
+  </script>
 </body>
 </html>

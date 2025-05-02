@@ -2,16 +2,98 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Login</title>
-  <link rel="stylesheet" href="css/login.css" />
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #e8f5e9;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+    .login-box {
+      background-color: white;
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+      width: 300px;
+    }
+    h2 {
+      text-align: center;
+      color: #2e7d32;
+    }
+    input, button {
+      width: 100%;
+      padding: 10px;
+      margin-top: 10px;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+    }
+    button {
+      background-color: #4caf50;
+      color: white;
+      border: none;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #388e3c;
+    }
+  </style>
 </head>
 <body>
-  <h2>Iniciar sesión</h2>
-  <input type="email" id="email" placeholder="Correo" />
-  <input type="password" id="password" placeholder="Contraseña" />
-  <button onclick="iniciarSesion()">Ingresar</button>
-  <script type="module" src="js/firebase-init.js"></script>
-  <script type="module" src="js/login.js"></script>
+  <div class="login-box">
+    <h2>Iniciar Sesión</h2>
+    <input type="email" id="email" placeholder="Correo electrónico">
+    <input type="password" id="contrasena" placeholder="Contraseña">
+    <button onclick="iniciarSesion()">Iniciar sesión</button>
+  </div>
+
+  <!-- Firebase SDKs (CDN - compat) -->
+  <script src="https://www.gstatic.com/firebasejs/10.11.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.11.0/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.11.0/firebase-firestore-compat.js"></script>
+
+  <script>
+    const firebaseConfig = {
+      apiKey: "AIzaSyBxK_0Fa7OS5vgHc8SuHhDQBqvpK0uN_Pk",
+  authDomain: "aylluweb-f9250.firebaseapp.com",
+  projectId: "aylluweb-f9250",
+  storageBucket: "aylluweb-f9250.firebasestorage.app",
+  messagingSenderId: "628363659588",
+  appId: "1:628363659588:web:d2124d4537a0c2af392f11"
+    };
+
+    firebase.initializeApp(firebaseConfig);
+    const auth = firebase.auth();
+    const db = firebase.firestore();
+
+    function iniciarSesion() {
+      const email = document.getElementById('email').value;
+      const contrasena = document.getElementById('contrasena').value;
+
+      auth.signInWithEmailAndPassword(email, contrasena)
+        .then(() => db.collection("usuarios").doc(email).get())
+        .then(doc => {
+          if (doc.exists) {
+            const rol = doc.data().rol;
+            localStorage.setItem("usuarioLogueado", email);
+            localStorage.setItem("rol", rol);
+
+            if (rol === "admin" || rol === "arquitecto") {
+              window.location.href = "admin.html";
+            } else {
+              window.location.href = "terrenos.html";
+            }
+          } else {
+            alert("Usuario sin rol asignado.");
+          }
+        })
+        .catch(error => {
+          alert("Error: " + error.message);
+        });
+    }
+  </script>
 </body>
 </html>

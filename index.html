@@ -1,13 +1,224 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>AylluWeb</title>
-  <link rel="stylesheet" href="css/style.css" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="index.css">
+    <title>Document</title>
 </head>
+<header class="navbar">
+    <div class="navbar-container">
+      <a href="index.html" class="logo"><img src="img/logo-ayllu.png" class="container-logo"></a>
+      <button class="menu-toggle" id="menu-toggle">&#9776;</button>
+      <nav class="nav-links" id="nav-links">
+        <a href="index.html">Inicio</a>
+        <a href="terrenos.html">Terrenos</a>
+        <a href="#">Restaurant</a>
+        <a href="#">Proyectos</a>
+        <a href="login.html">Contacto</a>
+      </nav>
+    </div>
+  </header>
 <body>
-  <header><h1>Bienvenido a AylluWeb</h1></header>
-  <main><p>Este es el inicio de la plataforma.</p></main>
+    
+    <section class="carousel">
+        <div class="carousel-container" id="carousel-container">
+            <a href="pagina1.html"><img src="img/imagen1.png" alt="Imagen 1"></a>
+            <a href="pagina2.html"><img src="img/imagen2.jpg" alt="Imagen 2"></a>
+            <a href="pagina3.html"><img src="img/imagen3.jpg" alt="Imagen 3"></a>
+          </div>
+        <button class="carousel-btn prev" onclick="moveSlide(-1)">&#10094;</button>
+        <button class="carousel-btn next" onclick="moveSlide(1)">&#10095;</button>
+      </section>
+      <section class="properties">
+      <div class="property-list">
+        <a href="javascript:void(0);" class="property" onclick="abrirModal(1)">
+          <div class="image-wrapper">
+            <img src="img/vista superior.png" alt="Terreno">
+            <div class="overlay">
+              <h3>Terreno en Huaypo</h3>
+              <p>Desde S/.24,000</p>
+              <span class="boton-vermas">CONOCE MÁS</span>
+            </div>
+          </div>
+        </a>
+        <a href="javascript:void(0);" class="property" onclick="abrirModal(2)">
+          <div class="image-wrapper">
+            <img src="img/vista superior.png" alt="Terreno">
+            <div class="overlay">
+              <h3>Terreno en Huaypo</h3>
+              <p>Desde S/.24,000</p>
+              <span class="boton-vermas">CONOCE MÁS</span>
+            </div>
+          </div>
+        </a>
+        <a href="javascript:void(0);" class="property" onclick="abrirModal(3)">
+          <div class="image-wrapper">
+            <img src="img/vista superior.png" alt="Terreno">
+            <div class="overlay">
+              <h3>Terreno en Huaypo</h3>
+              <p>Desde S/.24,000</p>
+              <span class="boton-vermas">CONOCE MÁS</span>
+            </div>
+          </div>
+        </a>
+      </div>  
+    </section>
+    <section class="proyecto">
+        <h2 class="proyecto-titulo">Proyecto destacado</h2>
+        <div class="proyecto-container">
+          <div class="proyecto-imagen">
+            <img src="img/casa-alpina.jpg" alt="Casa Alpina">
+          </div>
+          <div class="proyecto-info">
+            <img src="img/logo-ayllu.png" alt="Logo Ayllu" class="proyecto-logo">
+            <h3 class="estado">En Construcción</h3>
+            <h2 class="nombre">El Primero de la Zona</h2>
+            <ul class="detalles">
+              <li>🏡 Alpina rústica de reposo</li>
+              <li>📐 100 m²</li>
+              <li>📍 A 15 minutos de Chinchero</li>
+            </ul>
+            <a href="#" class="boton-proyecto">Conoce el proyecto</a>
+          </div>
+        </div>
+      </section>
+      
+      <!-- Sección Contacto -->
+      <section class="contacto">
+        <h2 class="contacto-titulo">Contactos</h2>
+        <div class="contacto-contenido">
+          <h3>Contáctanos</h3>
+          <p>Para más información sobre nuestros terrenos, lotes y viviendas, contáctanos a través de los siguientes medios:</p>
+          <div class="contacto-grid">
+            <div>
+              <h4>Email</h4>
+              <a href="mailto:info@example.com">info@example.com</a>
+            </div>
+            <div>
+              <h4>Facebook</h4>
+              <a href="https://facebook.com/example" target="_blank">facebook.com/example</a>
+            </div>
+            <div>
+              <h4>WhatsApp</h4>
+              <a href="https://wa.me/51977391849" target="_blank">+51 977 391 849</a>
+            </div>
+          </div>
+        </div>
+      </section>
+      <div id="modal-terreno" class="modal hidden">
+        <div class="modal-contenido">
+          <span class="modal-cerrar" onclick="cerrarModal()">&times;</span>
+          <div class="modal-carrusel" id="modal-carrusel"></div>
+          <div class="modal-info" id="modal-info"></div>
+        </div>
+      </div>
+      <!-- Modal Detallado de Terreno -->
+<div id="modal-terreno" class="modal hidden">
+  <div class="modal-contenido">
+    <span class="modal-cerrar" onclick="cerrarModal()">&times;</span>
+    <div class="modal-carrusel-wrapper">
+      <button class="carrusel-btn prev" onclick="navegarCarrusel(-1)">&#10094;</button>
+      <div class="modal-carrusel" id="modal-carrusel"></div>
+      <button class="carrusel-btn next" onclick="navegarCarrusel(1)">&#10095;</button>
+    </div>
+    <div class="modal-info" id="modal-info"></div>
+  </div>
+</div>
+<!-- Firebase SDKs -->
+<script src="https://www.gstatic.com/firebasejs/10.11.0/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.11.0/firebase-auth.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.11.0/firebase-firestore.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.11.0/firebase-storage.js"></script>
+
+<script>
+  // Tu configuración personalizada
+  // Import the functions you need from the SDKs you need
+import { initializeApp } from "firebase/app";
+// TODO: Add SDKs for Firebase products that you want to use
+// https://firebase.google.com/docs/web/setup#available-libraries
+
+// Your web app's Firebase configuration
+const firebaseConfig = {
+  apiKey: "AIzaSyBxK_0Fa7OS5vgHc8SuHhDQBqvpK0uN_Pk",
+  authDomain: "aylluweb-f9250.firebaseapp.com",
+  projectId: "aylluweb-f9250",
+  storageBucket: "aylluweb-f9250.firebasestorage.app",
+  messagingSenderId: "628363659588",
+  appId: "1:628363659588:web:d2124d4537a0c2af392f11"
+};
+// Initialize Firebase
+const app = initializeApp(firebaseConfig);
+  // Inicializar Firebase
+  firebase.initializeApp(firebaseConfig);
+
+  // Inicializar servicios
+  const auth = firebase.auth();
+  const db = firebase.firestore();
+  const storage = firebase.storage();
+</script>
+
 </body>
+<script>
+    document.getElementById('menu-toggle').addEventListener('click', function () {
+      document.getElementById('nav-links').classList.toggle('show');
+    });
+  </script>
+  <script>
+    let currentIndex = 0;
+  
+    function moveSlide(direction) {
+      const container = document.getElementById("carousel-container");
+      const totalSlides = container.children.length;
+      currentIndex = (currentIndex + direction + totalSlides) % totalSlides;
+      container.style.transform = `translateX(-${currentIndex * 100}%)`;
+    }
+  </script>
+  <script>
+    const terrenos = [
+      {
+        titulo: "Terreno en Huaypo",
+        descripcion: "Terreno amplio con vista a la laguna.",
+        imagenes: ["img/imagen1.png", "img/imagen2.jpg", "img/imagen3.jpg"],
+        precio: "S/. 24,000",
+        medidas: "120 m²",
+        servicios: ["Agua potable", "Luz eléctrica", "Acceso vehicular"],
+        proyecciones: "Ideal para vivienda, inversión turística o descanso",
+        pago: "Contado o cuotas hasta 12 meses sin intereses"
+      }
+    ];
+    
+    function abrirModal(index) {
+      const terreno = terrenos[index];
+    
+      // Carrusel
+      const carrusel = document.getElementById("modal-carrusel");
+      carrusel.innerHTML = "";
+      terreno.imagenes.forEach(src => {
+        const img = document.createElement("img");
+        img.src = src;
+        carrusel.appendChild(img);
+      });
+    
+      // Información
+      const info = document.getElementById("modal-info");
+      info.innerHTML = `
+        <h2>${terreno.titulo}</h2>
+        <p><strong>Precio:</strong> ${terreno.precio}</p>
+        <p><strong>Área:</strong> ${terreno.medidas}</p>
+        <p><strong>Descripción:</strong> ${terreno.descripcion}</p>
+        <p><strong>Servicios:</strong></p>
+        <ul>${terreno.servicios.map(s => `<li>${s}</li>`).join('')}</ul>
+        <p><strong>Proyecciones:</strong> ${terreno.proyecciones}</p>
+        <p><strong>Medios de pago:</strong> ${terreno.pago}</p>
+      `;
+    
+      document.getElementById("modal-terreno").classList.remove("hidden");
+    }
+    
+    function cerrarModal() {
+      document.getElementById("modal-terreno").classList.add("hidden");
+    }
+    </script>
+    
 </html>
