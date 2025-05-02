@@ -94,6 +94,8 @@
     <textarea id="documentacion" placeholder="Documentos disponibles"></textarea>
     <textarea id="pago" placeholder="Modalidades de pago"></textarea>
     <textarea id="beneficios" placeholder="Beneficios de ser socio"></textarea>
+    <label for="archivoDocumentacion">Subir documentación (PDF, imagen, Excel, etc.):</label>
+<input type="file" id="archivoDocumentacion" accept=".pdf,.jpg,.jpeg,.png,.xlsx,.xls,.docx,.doc" />
     <button id="guardar-btn" onclick="guardarTerreno()">Guardar terreno</button>
   </div>
 
@@ -114,7 +116,7 @@
   apiKey: "AIzaSyBxK_0Fa7OS5vgHc8SuHhDQBqvpK0uN_Pk",
   authDomain: "aylluweb-f9250.firebaseapp.com",
   projectId: "aylluweb-f9250",
-  storageBucket: "aylluweb-f9250.firebasestorage.app",
+  storageBucket: "aylluweb-f9250.appspot.com",
   messagingSenderId: "628363659588",
   appId: "1:628363659588:web:d2124d4537a0c2af392f11"
 };
@@ -349,6 +351,6 @@ function actualizarTerreno(id) {
     }
   }
 </script>
-
+<script src="admin_doc_final.js"></script>
 </body>
 </html>
