@@ -1,10 +1,11 @@
 <!DOCTYPE html>
+
 <html lang="es">
 <head>
-  <meta charset="UTF-8" />
-  <title>Terrenos disponibles</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <style>
+<meta charset="utf-8"/>
+<title>Terrenos disponibles</title>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<style>
     body {
       font-family: Arial, sans-serif;
       background: #f1f8e9;
@@ -90,40 +91,26 @@
   </style>
 </head>
 <body>
-  <h1>Terrenos en Venta</h1>
-  <div class="filtro">
-    <label for="estadoFiltro">Filtrar por estado:</label>
-    <select id="estadoFiltro">
-      <option value="todos">Todos</option>
-      <option value="disponible">Disponible</option>
-      <option value="reservado">Reservado</option>
-      <option value="vendido">Vendido</option>
-    </select>
-  </div>
-  <div class="terrenos" id="listaTerrenos"></div>
+<h1>Terrenos en Venta</h1>
+<div class="filtro">
+<label for="estadoFiltro">Filtrar por estado:</label>
+<select id="estadoFiltro">
+<option value="todos">Todos</option>
+<option value="disponible">Disponible</option>
+<option value="reservado">Reservado</option>
+<option value="vendido">Vendido</option>
+</select>
+</div>
+<div class="terrenos" id="listaTerrenos"></div>
+<!-- Modal -->
+<div class="modal" id="modal">
+<div class="modal-content" id="modalContent"></div>
+</div>
+<!-- Firebase -->
 
-  <!-- Modal -->
-  <div class="modal" id="modal">
-    <div class="modal-content" id="modalContent"></div>
-  </div>
 
-  <!-- Firebase -->
-  <script src="https://www.gstatic.com/firebasejs/10.11.0/firebase-app.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/10.11.0/firebase-firestore.js"></script>
-  <script>
-    const firebaseConfig = {
-      apiKey: "AIzaSyBxK_0Fa7OS5vgHc8SuHhDQBqvpK0uN_Pk",
-  authDomain: "aylluweb-f9250.firebaseapp.com",
-  projectId: "aylluweb-f9250",
-  storageBucket: "aylluweb-f9250.firebasestorage.app",
-  messagingSenderId: "628363659588",
-  appId: "1:628363659588:web:d2124d4537a0c2af392f11"
-};
-    firebase.initializeApp(firebaseConfig);
-    const db = firebase.firestore();
-  </script>
 
-  <script>
+<script>
     const lista = document.getElementById("listaTerrenos");
     const estadoFiltro = document.getElementById("estadoFiltro");
 
@@ -200,5 +187,23 @@
 
     document.addEventListener("DOMContentLoaded", cargarTerrenos);
   </script>
-</body>
+<script>
+  // Firebase SDKs desde CDN
+  document.write('<script src="https://www.gstatic.com/firebasejs/10.11.0/firebase-app.js"><\/script>');
+  document.write('<script src="https://www.gstatic.com/firebasejs/10.11.0/firebase-auth.js"><\/script>');
+  document.write('<script src="https://www.gstatic.com/firebasejs/10.11.0/firebase-firestore.js"><\/script>');
+  document.write('<script src="https://www.gstatic.com/firebasejs/10.11.0/firebase-storage.js"><\/script>');
+</script><script>
+  const firebaseConfig = {
+    apiKey: "AIzaSyBxK_0Fa7OS5vgHc8SuHhDQBqvpK0uN_Pk",
+    authDomain: "aylluweb-f9250.firebaseapp.com",
+    projectId: "aylluweb-f9250",
+    storageBucket: "aylluweb-f9250.appspot.com",
+    messagingSenderId: "628363659588",
+    appId: "1:628363659588:web:d2124d4537a0c2af392f11"
+  };
+  firebase.initializeApp(firebaseConfig);
+  const db = firebase.firestore();
+  const storage = firebase.storage();
+</script></body>
 </html>

@@ -1,10 +1,11 @@
 <!DOCTYPE html>
+
 <html lang="es">
 <head>
-  <meta charset="UTF-8" />
-  <title>Panel de Administración - Terrenos</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <style>
+<meta charset="utf-8"/>
+<title>Panel de Administración - Terrenos</title>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<style>
     body {
       font-family: Arial, sans-serif;
       background: #f1f8e9;
@@ -75,9 +76,8 @@
   </style>
 </head>
 <body>
-
-  <!-- Validación de acceso -->
-  <script>
+<!-- Validación de acceso -->
+<script>
     var usuario = localStorage.getItem("usuarioLogueado");
     var rol = localStorage.getItem("rol");
 
@@ -86,57 +86,36 @@
       window.location.href = "login.html";
     }
   </script>
-
-  <!-- Bienvenida -->
-  <div class="bienvenida" id="bienvenida-usuario"></div>
-
-  <!-- Formulario -->
-  <div class="contenedor">
-    <h2>Agregar Terreno</h2>
-    <input type="text" id="titulo" placeholder="Título del terreno" />
-    <input type="text" id="medidas" placeholder="Medidas (ej: 10x20)" />
-    <input type="number" id="area" placeholder="Área en m²" />
-    <input type="text" id="ubicacion" placeholder="Ubicación (URL de Google Maps)" />
-    <input type="file" id="imagenes" accept="image/*" multiple />
-    <textarea id="descripcion" placeholder="Descripción del terreno"></textarea>
-    <textarea id="documentacion" placeholder="Documentos disponibles"></textarea>
-    <textarea id="pago" placeholder="Modalidades de pago"></textarea>
-    <textarea id="beneficios" placeholder="Beneficios de ser socio"></textarea>
-    <button id="guardar-btn" onclick="guardarTerreno()">Guardar terreno</button>
-  </div>
-
-  <!-- Terrenos cargados -->
-  <div class="contenedor">
-    <h2>Terrenos guardados</h2>
-    <div id="contenedor-terrenos"></div>
-  </div>
-
-  <!-- Firebase SDKs -->
-  <script src="https://www.gstatic.com/firebasejs/10.11.0/firebase-app.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/10.11.0/firebase-firestore.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/10.11.0/firebase-app.js"></script>
-<script src="https://www.gstatic.com/firebasejs/10.11.0/firebase-firestore.js"></script>
-<script src="https://www.gstatic.com/firebasejs/10.11.0/firebase-storage.js"></script>
+<!-- Bienvenida -->
+<div class="bienvenida" id="bienvenida-usuario"></div>
+<!-- Formulario -->
+<div class="contenedor">
+<h2>Agregar Terreno</h2>
+<input id="titulo" placeholder="Título del terreno" type="text"/>
+<input id="medidas" placeholder="Medidas (ej: 10x20)" type="text"/>
+<input id="area" placeholder="Área en m²" type="number"/>
+<input id="ubicacion" placeholder="Ubicación (URL de Google Maps)" type="text"/>
+<input accept="image/*" id="imagenes" multiple="" type="file"/>
+<textarea id="descripcion" placeholder="Descripción del terreno"></textarea>
+<textarea id="documentacion" placeholder="Documentos disponibles"></textarea>
+<textarea id="pago" placeholder="Modalidades de pago"></textarea>
+<textarea id="beneficios" placeholder="Beneficios de ser socio"></textarea>
+<button id="guardar-btn" onclick="guardarTerreno()">Guardar terreno</button>
+</div>
+<!-- Terrenos cargados -->
+<div class="contenedor">
+<h2>Terrenos guardados</h2>
+<div id="contenedor-terrenos"></div>
+</div>
+<!-- Firebase SDKs -->
 
 
-  <script>
-    const firebaseConfig = {
-      apiKey: "AIzaSyBxK_0Fa7OS5vgHc8SuHhDQBqvpK0uN_Pk",
-  authDomain: "aylluweb-f9250.firebaseapp.com",
-  projectId: "aylluweb-f9250",
-  storageBucket: "aylluweb-f9250.firebasestorage.app",
-  messagingSenderId: "628363659588",
-  appId: "1:628363659588:web:d2124d4537a0c2af392f11"
-};
 
-    firebase.initializeApp(firebaseConfig);
-    const db = firebase.firestore();
-    const storage = firebase.storage();
 
-  </script>
 
-  <!-- Funciones principales -->
-  <script>
+
+<!-- Funciones principales -->
+<script>
     function guardarTerreno() {
   const files = document.getElementById('imagenes').files;
   if (files.length === 0) {
@@ -316,6 +295,30 @@ function actualizarTerreno(id) {
   });
 }
   </script>
+<!-- Firebase SDKs desde CDN -->
 
-</body>
+
+
+
+<!-- Configuración de Firebase -->
+
+<script>
+  // Firebase SDKs desde CDN
+  document.write('<script src="https://www.gstatic.com/firebasejs/10.11.0/firebase-app.js"><\/script>');
+  document.write('<script src="https://www.gstatic.com/firebasejs/10.11.0/firebase-auth.js"><\/script>');
+  document.write('<script src="https://www.gstatic.com/firebasejs/10.11.0/firebase-firestore.js"><\/script>');
+  document.write('<script src="https://www.gstatic.com/firebasejs/10.11.0/firebase-storage.js"><\/script>');
+</script><script>
+  const firebaseConfig = {
+    apiKey: "AIzaSyBxK_0Fa7OS5vgHc8SuHhDQBqvpK0uN_Pk",
+  authDomain: "aylluweb-f9250.firebaseapp.com",
+  projectId: "aylluweb-f9250",
+  storageBucket: "aylluweb-f9250.firebasestorage.app",
+  messagingSenderId: "628363659588",
+  appId: "1:628363659588:web:d2124d4537a0c2af392f11"
+  };
+  firebase.initializeApp(firebaseConfig);
+  const db = firebase.firestore();
+  const storage = firebase.storage();
+</script></body>
 </html>
