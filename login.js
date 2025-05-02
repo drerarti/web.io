@@ -1,3 +1,21 @@
+// login.js
+
+// 🔹 Este es tu objeto firebaseConfig → DEBES cambiar los valores por los de tu proyecto.
+const firebaseConfig = {
+    apiKey: "AIzaSyBxK_0Fa7OS5vgHc8SuHhDQBqvpK0uN_Pk",
+  authDomain: "aylluweb-f9250.firebaseapp.com",
+  projectId: "aylluweb-f9250",
+  storageBucket: "aylluweb-f9250.firebasestorage.app",
+  messagingSenderId: "628363659588",
+  appId: "1:628363659588:web:d2124d4537a0c2af392f11"
+  };
+  
+  // 🔹 Inicializar Firebase
+  firebase.initializeApp(firebaseConfig);
+  const auth = firebase.auth();
+  const db = firebase.firestore();
+  
+
 document.getElementById('loginBtn').addEventListener('click', async (e) => {
     e.preventDefault();
   
