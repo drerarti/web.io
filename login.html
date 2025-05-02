@@ -1,39 +1,43 @@
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Iniciar Sesión</title>
-  <link rel="stylesheet" href="index.css" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Login</title>
+  <link rel="stylesheet" href="index.css"/>
+
+  <!-- Firebase SDK compat -->
+  <script src="https://www.gstatic.com/firebasejs/10.11.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.11.0/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.11.0/firebase-firestore-compat.js"></script>
 </head>
 <body>
-  <div class="container">
-    <div class="login-box">
-      <h2>Iniciar Sesión</h2>
-      <input type="email" id="email" placeholder="Correo electrónico" />
-      <input type="password" id="password" placeholder="Contraseña" />
-      <button id="loginBtn">Iniciar sesión</button>
-    </div>
+  <div class="login-container">
+    <h1>Iniciar Sesión</h1>
+    <input type="email" id="email" placeholder="Correo" required/>
+    <input type="password" id="password" placeholder="Contraseña" required/>
+    <button id="loginBtn">Entrar</button>
+    <p id="error" style="color:red; margin-top:10px;"></p>
   </div>
 
-  <!-- Firebase SDKs como módulos -->
-  <!-- Firebase SDKs (Compat) -->
-<script src="https://www.gstatic.com/firebasejs/10.11.0/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/10.11.0/firebase-auth-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/10.11.0/firebase-firestore-compat.js"></script>
+  <!-- Configuración de Firebase -->
+  <script>
+    const firebaseConfig = {
+      apiKey: "AIzaSyAnfIL3XJfv8JccqkTxF4IynrbfAX6eLls",
+      authDomain: "aylluweb-f9250.firebaseapp.com",
+      projectId: "aylluweb-f9250",
+      storageBucket: "aylluweb-f9250.appspot.com",
+      messagingSenderId: "659144067379",
+      appId: "1:659144067379:web:3acde95c00d7c5c31ad8c1"
+    };
+    firebase.initializeApp(firebaseConfig);
+  </script>
 
-<!-- Inicializar Firebase -->
-<script>
-  const firebaseConfig = {
-    apiKey: "AIzaSyAnfIL3XJfv8JccqkTxF4IynrbfAX6eLls",
-    authDomain: "aylluweb-f9250.firebaseapp.com",
-    projectId: "aylluweb-f9250",
-    storageBucket: "aylluweb-f9250.appspot.com",
-    messagingSenderId: "659144067379",
-    appId: "1:659144067379:web:3acde95c00d7c5c31ad8c1"
-  };
-  firebase.initializeApp(firebaseConfig);
-</script>
+  <!-- Lógica del login -->
+  <script src="login.js"></script>
+</body>
+</html>
 
 <!-- Tu script de login -->
 <script src="login.js"></script>
