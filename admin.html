@@ -150,23 +150,28 @@
 
   <!-- Funciones principales -->
   <script>
-   function guardarTerreno() {
+  function guardarTerreno() {
   const user = firebase.auth().currentUser;
   if (!user) {
     alert("Usuario no autenticado.");
     return;
   }
 
-  const terrenoId = Date.now().toString(); // ID temporal
+  const terrenoId = Date.now().toString();
   const files = document.getElementById('imagenes').files;
+  console.log("Archivos seleccionados:", files);
+  // ✅ Verificación de que haya al menos una imagen
+  if (!files || files.length === 0) {
+    alert("Debes seleccionar al menos una imagen.");
+    return;
+  }
+
   const promises = [];
 
   for (let i = 0; i < files.length; i++) {
     const file = files[i];
     const ref = storage.ref().child(`terrenos/${terrenoId}/${file.name}`);
-    promises.push(
-      ref.put(file).then(snapshot => snapshot.ref.getDownloadURL())
-    );
+    promises.push(ref.put(file).then(snapshot => snapshot.ref.getDownloadURL()));
   }
 
   Promise.all(promises).then(urls => {
@@ -191,6 +196,7 @@
     alert("Error al guardar: " + error.message);
   });
 }
+
 firebase.auth().onAuthStateChanged(user => {
   if (!user) {
     alert("Debes iniciar sesión para guardar terrenos.");
