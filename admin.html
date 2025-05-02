@@ -95,7 +95,7 @@
     <h2>Agregar Terreno</h2>
     <input type="text" id="titulo" placeholder="Título del terreno" />
     <input type="text" id="medidas" placeholder="Medidas (ej: 10x20)" />
-    <input type="number" id="area" placeholder="Área en m²" />
+    <input type="number" id="area" placeholder="Área en m²" min="1" step="any" oninput="validarNumero(this)" />
     <input type="text" id="ubicacion" placeholder="Ubicación (URL de Google Maps)" />
     <input type="file" id="imagenes" accept="image/*" multiple />
     <textarea id="descripcion" placeholder="Descripción del terreno"></textarea>
@@ -114,9 +114,9 @@
   <!-- Firebase SDKs -->
   <script src="https://www.gstatic.com/firebasejs/10.11.0/firebase-app.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.11.0/firebase-firestore.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/10.11.0/firebase-app.js"></script>
-<script src="https://www.gstatic.com/firebasejs/10.11.0/firebase-firestore.js"></script>
-<script src="https://www.gstatic.com/firebasejs/10.11.0/firebase-storage.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.11.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.11.0/firebase-firestore-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.11.0/firebase-storage-compat.js"></script>
 
 
   <script>
@@ -316,6 +316,14 @@ function actualizarTerreno(id) {
   });
 }
   </script>
+<script>
+  function validarNumero(input) {
+    if (input.value.includes("m")) {
+      alert("Ingresa solo números sin unidades (ej: 400)");
+      input.value = input.value.replace(/[^\d.]/g, "");
+    }
+  }
+</script>
 
 </body>
 </html>
