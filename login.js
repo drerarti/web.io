@@ -1,55 +1,40 @@
-// login.js
 
-// 🔹 Este es tu objeto firebaseConfig → DEBES cambiar los valores por los de tu proyecto.
-const firebaseConfig = {
-    apiKey: "AIzaSyBxK_0Fa7OS5vgHc8SuHhDQBqvpK0uN_Pk",
-  authDomain: "aylluweb-f9250.firebaseapp.com",
-  projectId: "aylluweb-f9250",
-  storageBucket: "aylluweb-f9250.firebasestorage.app",
-  messagingSenderId: "628363659588",
-  appId: "1:628363659588:web:d2124d4537a0c2af392f11"
-  };
-  
-  // 🔹 Inicializar Firebase
-  firebase.initializeApp(firebaseConfig);
-  const auth = firebase.auth();
-  const db = firebase.firestore();
-  
+const auth = firebase.auth();
+const db = firebase.firestore();
 
 document.getElementById('loginBtn').addEventListener('click', async (e) => {
-    e.preventDefault();
-  
-    const email = document.getElementById('email').value.trim();
-    const password = document.getElementById('password').value;
-    const error = document.getElementById('error');
-  
-    if (!email || !password) {
-      error.textContent = 'Por favor, completa ambos campos.';
-      return;
-    }
-  
-    try {
-      const cred = await firebase.auth().signInWithEmailAndPassword(email, password);
-      const user = cred.user;
-  
-      const docRef = firebase.firestore().collection("usuarios").doc(user.email);
-      const docSnap = await docRef.get();
-  
-      if (docSnap.exists) {
-        const rol = docSnap.data().rol;
-        if (rol === "admin" || rol === "arquitecto") {
-          window.location.href = "admin.html";
-        } else {
-          error.textContent = "No tienes permisos para acceder a esta sección.";
-          firebase.auth().signOut();
-        }
+  e.preventDefault();
+
+  const email = document.getElementById('email').value.trim();
+  const password = document.getElementById('password').value;
+  const error = document.getElementById('error');
+
+  if (!email || !password) {
+    error.textContent = 'Por favor, completa ambos campos.';
+    return;
+  }
+
+  try {
+    const cred = await auth.signInWithEmailAndPassword(email, password);
+    const user = cred.user;
+
+    const docRef = db.collection("usuarios").doc(user.email);
+    const docSnap = await docRef.get();
+
+    if (docSnap.exists) {
+      const rol = docSnap.data().rol;
+      if (rol === "admin" || rol === "arquitecto") {
+        window.location.href = "admin.html";
       } else {
-        error.textContent = "No se encontró tu información de rol.";
-        firebase.auth().signOut();
+        error.textContent = "No tienes permisos para acceder a esta sección.";
+        auth.signOut();
       }
-    } catch (err) {
-      console.error(err);
-      error.textContent = "Error: " + err.message;
+    } else {
+      error.textContent = "No se encontró tu información de rol.";
+      auth.signOut();
     }
-  });
-  
+  } catch (err) {
+    console.error(err);
+    error.textContent = "Error: " + err.message;
+  }
+});
