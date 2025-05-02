@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <title>Panel de Administración - Terrenos</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f1f8e9;
+      padding: 20px;
+    }
+    .contenedor {
+      max-width: 800px;
+      margin: auto;
+      background: white;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+    }
+    input, textarea {
+      width: 100%;
+      padding: 10px;
+      margin-top: 10px;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+    }
+    button {
+      background: #4caf50;
+      color: white;
+      padding: 10px 16px;
+      border: none;
+      border-radius: 8px;
+      margin-top: 10px;
+      cursor: pointer;
+      font-weight: bold;
+    }
+    button:hover {
+      background: #388e3c;
+    }
+    .terreno {
+      border: 1px solid #ccc;
+      padding: 15px;
+      margin: 10px 0;
+      border-radius: 8px;
+    }
+    .bienvenida {
+      background-color: #e8f5e9;
+      padding: 12px 20px;
+      border-radius: 8px;
+      margin-bottom: 20px;
+      font-weight: bold;
+      font-size: 16px;
+      color: #2e7d32;
+      text-align: center;
+    }
+    .carrusel {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 15px;
+}
+.carrusel button {
+  background: #4caf50;
+  color: white;
+  border: none;
+  padding: 6px 10px;
+  font-size: 18px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+.carrusel button:hover {
+  background: #388e3c;
+}
+  </style>
+</head>
+<body>
+
+  <!-- Validación de acceso -->
+  <script>
+    var usuario = localStorage.getItem("usuarioLogueado");
+    var rol = localStorage.getItem("rol");
+
+    if (!usuario || (rol !== "admin" && rol !== "arquitecto")) {
+      alert("Acceso denegado. Solo administradores o arquitectos pueden ingresar.");
+      window.location.href = "login.html";
+    }
+  </script>
+
+  <!-- Bienvenida -->
+  <div class="bienvenida" id="bienvenida-usuario"></div>
+
+  <!-- Formulario -->
+  <div class="contenedor">
+    <h2>Agregar Terreno</h2>
+    <input type="text" id="titulo" placeholder="Título del terreno" />
+    <input type="text" id="medidas" placeholder="Medidas (ej: 10x20)" />
+    <input type="number" id="area" placeholder="Área en m²" />
+    <input type="text" id="ubicacion" placeholder="Ubicación (URL de Google Maps)" />
+    <input type="file" id="imagenes" accept="image/*" multiple />
+    <textarea id="descripcion" placeholder="Descripción del terreno"></textarea>
+    <textarea id="documentacion" placeholder="Documentos disponibles"></textarea>
+    <textarea id="pago" placeholder="Modalidades de pago"></textarea>
+    <textarea id="beneficios" placeholder="Beneficios de ser socio"></textarea>
+    <button id="guardar-btn" onclick="guardarTerreno()">Guardar terreno</button>
+  </div>
+
+  <!-- Terrenos cargados -->
+  <div class="contenedor">
+    <h2>Terrenos guardados</h2>
+    <div id="contenedor-terrenos"></div>
+  </div>
+
+  <!-- Firebase SDKs -->
+  <script src="https://www.gstatic.com/firebasejs/10.11.0/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.11.0/firebase-firestore.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.11.0/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.11.0/firebase-firestore.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.11.0/firebase-storage.js"></script>
+
+
+  <script>
+    const firebaseConfig = {
+      apiKey: "AIzaSyBxK_0Fa7OS5vgHc8SuHhDQBqvpK0uN_Pk",
+  authDomain: "aylluweb-f9250.firebaseapp.com",
+  projectId: "aylluweb-f9250",
+  storageBucket: "aylluweb-f9250.firebasestorage.app",
+  messagingSenderId: "628363659588",
+  appId: "1:628363659588:web:d2124d4537a0c2af392f11"
+};
+
+    firebase.initializeApp(firebaseConfig);
+    const db = firebase.firestore();
+    const storage = firebase.storage();
+
+  </script>
+
+  <!-- Funciones principales -->
+  <script>
+    function guardarTerreno() {
+  const files = document.getElementById('imagenes').files;
+  if (files.length === 0) {
+    alert("Debes seleccionar al menos una imagen.");
+    return;
+  }
+
+  const terrenoId = Date.now().toString(); // ID temporal
+  const promises = [];
+
+  for (let i = 0; i < files.length; i++) {
+    const file = files[i];
+    const ref = storage.ref().child(`terrenos/${terrenoId}/${file.name}`);
+    promises.push(
+      ref.put(file).then(snapshot => snapshot.ref.getDownloadURL())
+    );
+  }
+
+  Promise.all(promises).then(urls => {
+    const terreno = {
+      titulo: document.getElementById('titulo').value,
+      medidas: document.getElementById('medidas').value,
+      area: parseFloat(document.getElementById('area').value),
+      ubicacion: document.getElementById('ubicacion').value,
+      descripcion: document.getElementById('descripcion').value,
+      documentacion: document.getElementById('documentacion').value,
+      pago: document.getElementById('pago').value,
+      beneficios: document.getElementById('beneficios').value,
+      imagenes: urls,
+      creado: firebase.firestore.Timestamp.now()
+    };
+
+    return db.collection("terrenos").add(terreno);
+  }).then(() => {
+    alert("Terreno guardado con imágenes.");
+    cargarTerrenos();
+  }).catch(error => {
+    alert("Error al guardar: " + error.message);
+  });
+}
+
+
+function cargarTerrenos() {
+  const contenedor = document.getElementById("contenedor-terrenos");
+  contenedor.innerHTML = "";
+
+  db.collection("terrenos").orderBy("creado", "desc").get()
+    .then(querySnapshot => {
+      querySnapshot.forEach(doc => {
+        const t = doc.data();
+        const div = document.createElement("div");
+        div.className = "terreno";
+
+        const imagenesHTML = (t.imagenes && t.imagenes.length > 0) ? `
+          <div class="carrusel" data-id="${doc.id}" data-imagenes='${JSON.stringify(t.imagenes)}' data-index="0">
+            <button class="prev">◀</button>
+            <img src="${t.imagenes[0]}" class="carrusel-img" style="max-width: 100%; border-radius: 8px;" />
+            <button class="next">▶</button>
+          </div>
+        ` : `<p>Sin imágenes</p>`;
+
+        div.innerHTML = `
+          <div style="display: grid; gap: 10px;">${imagenesHTML}</div>
+          <h3>${t.titulo}</h3>
+          <p><strong>Medidas:</strong> ${t.medidas}</p>
+          <p><strong>Área:</strong> ${t.area} m²</p>
+          <p><strong>Ubicación:</strong> <a href="${t.ubicacion}" target="_blank">Ver en mapa</a></p>
+          <p><strong>Descripción:</strong> ${t.descripcion}</p>
+          <p><strong>Documentos:</strong> ${t.documentacion}</p>
+          <p><strong>Pago:</strong> ${t.pago}</p>
+          <p><strong>Beneficios:</strong> ${t.beneficios}</p>
+          <button onclick="editarTerreno('${doc.id}')">✏️ Editar</button>
+          <button onclick="eliminarTerreno('${doc.id}')">🗑️ Eliminar</button>
+        `;
+
+        contenedor.appendChild(div);
+      });
+    })
+    .then(() => {
+      inicializarCarruseles(); // Se ejecuta después de renderizar
+    });
+}
+function inicializarCarruseles() {
+  const carruseles = document.querySelectorAll('.carrusel');
+
+  carruseles.forEach(carrusel => {
+    const imagen = carrusel.querySelector('.carrusel-img');
+    const prev = carrusel.querySelector('.prev');
+    const next = carrusel.querySelector('.next');
+    const imagenes = JSON.parse(carrusel.getAttribute('data-imagenes'));
+    let index = 0;
+
+    prev.onclick = () => {
+      index = (index - 1 + imagenes.length) % imagenes.length;
+      imagen.src = imagenes[index];
+    };
+    next.onclick = () => {
+      index = (index + 1) % imagenes.length;
+      imagen.src = imagenes[index];
+    };
+  });
+}
+
+
+    function eliminarTerreno(id) {
+  if (confirm("¿Estás seguro de eliminar este terreno?")) {
+    db.collection("terrenos").doc(id).delete()
+      .then(() => {
+        alert("Terreno eliminado");
+        cargarTerrenos();
+      })
+      .catch(err => alert("Error al eliminar: " + err.message));
+  }
+}
+
+function editarTerreno(id) {
+  db.collection("terrenos").doc(id).get().then(doc => {
+    if (doc.exists) {
+      const t = doc.data();
+      // Poblamos el formulario...
+      document.getElementById('titulo').value = t.titulo;
+        document.getElementById('titulo').value = t.titulo;
+        document.getElementById('medidas').value = t.medidas;
+        document.getElementById('area').value = t.area;
+        document.getElementById('ubicacion').value = t.ubicacion;
+        document.getElementById('descripcion').value = t.descripcion;
+        document.getElementById('documentacion').value = t.documentacion;
+        document.getElementById('pago').value = t.pago;
+        document.getElementById('beneficios').value = t.beneficios;
+
+        document.getElementById('guardar-btn').textContent = "Actualizar terreno";
+      document.getElementById('guardar-btn').onclick = function () {
+        actualizarTerreno(id);
+      };
+    }
+  });
+}
+
+function actualizarTerreno(id) {
+  const files = document.getElementById('imagenes').files;
+  const refBase = storage.ref().child(`terrenos/${id}/`);
+  const promises = [];
+
+  // Si hay nuevas imágenes, súbelas
+  if (files.length > 0) {
+    for (let i = 0; i < files.length; i++) {
+      const file = files[i];
+      const ref = refBase.child(file.name);
+      promises.push(ref.put(file).then(snap => snap.ref.getDownloadURL()));
+    }
+  }
+
+  Promise.all(promises).then(urls => {
+    const t = {
+      titulo: document.getElementById('titulo').value,
+      medidas: document.getElementById('medidas').value,
+      area: parseFloat(document.getElementById('area').value),
+      ubicacion: document.getElementById('ubicacion').value,
+      descripcion: document.getElementById('descripcion').value,
+      documentacion: document.getElementById('documentacion').value,
+      pago: document.getElementById('pago').value,
+      beneficios: document.getElementById('beneficios').value,
+    };
+
+    if (urls.length > 0) {
+      t.imagenes = urls;
+    }
+
+    return db.collection("terrenos").doc(id).update(t);
+  }).then(() => {
+    alert("Terreno actualizado correctamente");
+    document.getElementById('guardar-btn').textContent = "Guardar terreno";
+    document.getElementById('guardar-btn').onclick = guardarTerreno;
+    cargarTerrenos();
+  }).catch(error => {
+    alert("Error al actualizar: " + error.message);
+  });
+}
+  </script>
+
+</body>
+</html>

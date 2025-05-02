@@ -1,0 +1,684 @@
+.navbar {
+    background-color: #058a67;
+    color: white;
+    padding: 15px 0;
+  }
+  
+  .navbar-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 20px;
+  }
+  
+  .logo {
+    font-size: 24px;
+    font-weight: bold;
+    text-decoration: none;
+    color: white;
+  }
+  
+  .menu-toggle {
+    display: none;
+    font-size: 28px;
+    background: none;
+    border: none;
+    color: white;
+    cursor: pointer;
+  }
+  
+  .nav-links {
+    display: flex;
+    gap: 25px;
+  }
+  
+  .nav-links a {
+    text-decoration: none;
+    color: white;
+    font-weight: bold;
+    transition: color 0.3s;
+  }
+  
+  .nav-links a:hover {
+    color: #ff6600;
+  }
+  
+  /* Responsive */
+  @media (max-width: 768px) {
+    .menu-toggle {
+      display: block;
+    }
+  
+    .nav-links {
+      display: none;
+      flex-direction: column;
+      background-color: #058a67;
+      position: absolute;
+      top: 65px;
+      left: 0;
+      width: 100%;
+      padding: 20px 0;
+    }
+  
+    .nav-links a {
+      padding: 10px 20px;
+    }
+  
+    .nav-links.show {
+      display: flex;
+    }
+  }
+.container-logo{
+  width: 12%;
+}
+
+  .carousel {
+    position: relative;
+    overflow: hidden;
+    width: 100%;
+    max-width: 100%;
+    height: 400px;
+    margin: 30px auto;
+  }
+  
+  .carousel-container {
+    display: flex;
+    transition: transform 0.5s ease-in-out;
+    height: 100%;
+    width: 300%; /* si tienes 3 imágenes */
+  }
+  
+  .carousel-container a {
+    flex: 0 0 100%;
+    max-width: 100%;
+    height: 100%;
+  }
+  .carousel-container {
+    width: 100%;
+  }
+  .carousel-container img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    display: block;
+  }
+  html {
+    width: 100%;
+    overflow-x: hidden;
+  }
+  .carousel-btn {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background-color: rgba(0,0,0,0.5);
+    border: none;
+    color: white;
+    font-size: 24px;
+    cursor: pointer;
+    padding: 10px;
+    border-radius: 50%;
+    z-index: 10;
+  }
+  
+  .prev {
+    left: 10px;
+  }
+  
+  .next {
+    right: 10px;
+  }
+  
+@media (max-width: 768px) {
+  .carousel {
+    height: 250px;
+  }
+
+  
+    .carousel-btn {
+      font-size: 20px;
+      padding: 8px;
+    }
+  }
+
+
+  .properties¨{
+    display: flex;
+  }
+  .property-list {
+    display: flex;
+        flex-direction: row;
+        flex-wrap: nowrap;
+        justify-content: space-around;
+  }
+  
+  .property {
+    position: relative;
+    width: 30%;
+    text-decoration: none;
+    overflow: hidden;
+    border-radius: 10px;
+    transition: transform 0.4s ease;
+  }
+  
+  .property:hover {
+    transform: scale(1.03);
+  }
+  
+  .image-wrapper {
+    position: relative;
+    width: 100%;
+    height: 450px;
+    overflow: hidden;
+    border-radius: 10px;
+  }
+  
+  .image-wrapper img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+  
+  .overlay {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    background: linear-gradient(to top, rgba(0,0,0,0.6), transparent);
+    color: white;
+    padding: 20px;
+    text-align: center;
+  }
+  
+  .overlay h3 {
+    margin: 0 0 10px;
+    font-size: 22px;
+  }
+  
+  .overlay p {
+    margin: 0;
+    font-size: 18px;
+  }
+  
+  .boton-vermas {
+    display: inline-block;
+    margin-top: 15px;
+    background: #508f8f;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 25px;
+    font-weight: bold;
+    transition: background-color 0.3s;
+  }
+  
+  .boton-vermas:hover {
+    background-color: #3c7878;
+  }
+  
+  /* Responsive */
+  @media (max-width: 900px) {
+    .property {
+      width: 80%;
+    }
+  }
+  @media (max-width: 900px) {
+    .carousel {
+      margin-bottom: 30px; /* Espacio entre carrusel y las propiedades */
+    }
+  
+    .property-list {
+      flex-direction: column;
+      align-items: center;
+      gap: 20px;
+    }
+  
+    .property {
+      width: 90%;
+    }
+  }
+  body {
+    overflow-x: hidden;
+  }
+  /* === Proyecto Destacado === */
+.proyecto {
+    background-color: #f9f9f9;
+    padding: 40px 20px;
+    text-align: center;
+  }
+  
+  .proyecto-titulo {
+    background-color: green;
+    color: white;
+    padding: 15px 0;
+    margin-bottom: 40px;
+    font-size: 32px;
+  }
+  
+  .proyecto-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 40px;
+    flex-wrap: wrap;
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+  
+  .proyecto-imagen img {
+    max-width: 300px;
+    border-radius: 10px;
+  }
+  
+  .proyecto-info {
+    text-align: left;
+    max-width: 500px;
+  }
+  
+  .proyecto-logo {
+    width: 100px;
+    margin-bottom: 10px;
+  }
+  
+  .estado {
+    color: seagreen;
+    font-weight: bold;
+    font-size: 24px;
+  }
+  
+  .nombre {
+    font-size: 28px;
+    margin: 5px 0 15px;
+  }
+  
+  .detalles {
+    list-style: none;
+    padding: 0;
+    margin-bottom: 20px;
+    font-size: 16px;
+  }
+  
+  .boton-proyecto {
+    display: inline-block;
+    background-color: limegreen;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 25px;
+    text-decoration: none;
+    font-weight: bold;
+    transition: background 0.3s;
+  }
+  
+  .boton-proyecto:hover {
+    background-color: #2c7a2c;
+  }
+  
+  /* === Contacto === */
+  .contacto {
+    background-color: #f4f4f4;
+    padding: 40px 20px;
+    text-align: center;
+  }
+  
+  .contacto-titulo {
+    background-color: green;
+    color: white;
+    padding: 15px 0;
+    font-size: 32px;
+    margin-bottom: 30px;
+  }
+  
+  .contacto-contenido h3 {
+    font-size: 24px;
+    margin-bottom: 10px;
+  }
+  
+  .contacto-grid {
+    display: flex;
+    justify-content: center;
+    gap: 60px;
+    margin-top: 20px;
+    flex-wrap: wrap;
+  }
+  
+  .contacto-grid div {
+    text-align: center;
+  }
+  
+  .contacto-grid h4 {
+    font-weight: bold;
+    margin-bottom: 5px;
+  }
+  
+  .contacto-grid a {
+    color: #0000ee;
+    text-decoration: underline;
+  }
+  
+  /* === Responsive ajustes === */
+  @media (max-width: 768px) {
+    .proyecto-container {
+      flex-direction: column;
+      align-items: center;
+    }
+  
+    .proyecto-info {
+      text-align: center;
+    }
+  
+    .contacto-grid {
+      flex-direction: column;
+      gap: 20px;
+    }
+  }
+  .proyecto {
+    background: linear-gradient(to bottom, #f0fdf4, #ffffff);
+    padding: 60px 20px;
+    text-align: center;
+  }
+  
+  .proyecto-titulo {
+    background-color: #4caf50;
+    color: white;
+    padding: 15px 0;
+    font-size: 32px;
+    margin-bottom: 40px;
+    border-radius: 8px;
+  }
+  
+  .proyecto-container {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    gap: 40px;
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+  
+  .proyecto-imagen img {
+    max-width: 340px;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+  }
+  
+  .proyecto-info {
+    max-width: 500px;
+    text-align: left;
+  }
+  
+  .proyecto-logo {
+    width: 90px;
+    margin-bottom: 10px;
+  }
+  
+  .estado {
+    color: #388e3c;
+    font-weight: bold;
+    font-size: 20px;
+  }
+  
+  .nombre {
+    font-size: 26px;
+    margin: 10px 0;
+  }
+  
+  .descripcion {
+    font-size: 16px;
+    color: #555;
+    margin-bottom: 15px;
+  }
+  
+  .detalles {
+    list-style: none;
+    padding: 0;
+    font-size: 16px;
+    margin-bottom: 20px;
+  }
+  
+  .boton-proyecto {
+    display: inline-block;
+    background-color: #66bb6a;
+    color: white;
+    padding: 10px 24px;
+    border-radius: 30px;
+    font-weight: bold;
+    text-decoration: none;
+    transition: background 0.3s;
+  }
+  
+  .boton-proyecto:hover {
+    background-color: #388e3c;
+  }
+  
+  /* Contacto */
+  .contacto {
+    background-color: #e8f5e9;
+    padding: 50px 20px;
+    text-align: center;
+  }
+  
+  .contacto-titulo {
+    font-size: 30px;
+    background-color: #388e3c;
+    color: white;
+    padding: 15px 0;
+    border-radius: 8px;
+    margin-bottom: 25px;
+  }
+  
+  .contacto-contenido p {
+    font-size: 16px;
+    margin-bottom: 30px;
+  }
+  
+  .contacto-grid {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 40px;
+  }
+  
+  .contacto-grid div {
+    background: white;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    width: 220px;
+  }
+  
+  .contacto-grid h4 {
+    font-size: 18px;
+    margin-bottom: 10px;
+    color: #2e7d32;
+  }
+  
+  .contacto-grid a {
+    color: #1a237e;
+    text-decoration: none;
+    font-weight: bold;
+  }
+  
+  .contacto-grid a:hover {
+    text-decoration: underline;
+  }
+  
+  @media (max-width: 768px) {
+    .proyecto-container {
+      flex-direction: column;
+      text-align: center;
+    }
+  
+    .proyecto-info {
+      text-align: center;
+    }
+  
+    .contacto-grid {
+      flex-direction: column;
+      gap: 20px;
+    }
+  }
+  .modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.7);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+    overflow-y: auto;
+    padding: 20px;
+  }
+  
+  .modal.hidden {
+    display: none;
+  }
+  
+  .modal-contenido {
+    background: #fff;
+    border-radius: 12px;
+    max-width: 900px;
+    width: 100%;
+    padding: 20px;
+    position: relative;
+  }
+  
+  .modal-cerrar {
+    position: absolute;
+    top: 15px;
+    right: 20px;
+    font-size: 28px;
+    color: #333;
+    cursor: pointer;
+  }
+  
+  .modal-carrusel {
+    display: flex;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    gap: 10px;
+  }
+  
+  .modal-carrusel img {
+    height: 250px;
+    flex: 0 0 auto;
+    scroll-snap-align: start;
+    border-radius: 8px;
+  }
+  
+  .modal-info {
+    margin-top: 20px;
+  }
+  
+  .modal-info h2 {
+    color: #2e7d32;
+    margin-bottom: 10px;
+  }
+  
+  .modal-info p,
+  .modal-info ul {
+    font-size: 15px;
+    color: #444;
+    margin: 5px 0;
+  }
+  
+  .modal-info ul {
+    padding-left: 20px;
+  }
+  .modal {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  background: rgba(0,0,0,0.7);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+  overflow-y: auto;
+  padding: 20px;
+}
+
+.modal.hidden {
+  display: none;
+}
+
+.modal-contenido {
+  background: #fff;
+  border-radius: 12px;
+  max-width: 900px;
+  width: 100%;
+  padding: 20px;
+  position: relative;
+}
+
+.modal-cerrar {
+  position: absolute;
+  top: 15px;
+  right: 20px;
+  font-size: 28px;
+  color: #333;
+  cursor: pointer;
+}
+
+.modal-carrusel-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.modal-carrusel {
+  overflow: hidden;
+  display: flex;
+  scroll-behavior: smooth;
+  scroll-snap-type: x mandatory;
+  gap: 10px;
+  width: 100%;
+}
+
+.modal-carrusel img {
+  height: 250px;
+  flex: 0 0 auto;
+  scroll-snap-align: start;
+  border-radius: 8px;
+}
+
+.carrusel-btn {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: rgba(0,0,0,0.5);
+  border: none;
+  color: white;
+  font-size: 24px;
+  padding: 10px;
+  border-radius: 50%;
+  cursor: pointer;
+  z-index: 10;
+}
+
+.carrusel-btn.prev {
+  left: 0;
+}
+
+.carrusel-btn.next {
+  right: 0;
+}
+
+.modal-info {
+  margin-top: 20px;
+}
+
+.modal-info h2 {
+  color: #2e7d32;
+}
+
+.modal-info ul {
+  padding-left: 20px;
+  margin: 10px 0;
+}
+
+  
+  
