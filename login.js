@@ -1,33 +1,37 @@
-import { getAuth, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-auth.js";
-import { getFirestore, doc, getDoc } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-firestore.js";
-import { app } from './firebaseConfig.js'; // si tienes un archivo separado de configuración
-
-const auth = getAuth(app);
-const db = getFirestore(app);
-
-document.getElementById('loginForm').addEventListener('submit', async (e) => {
-  e.preventDefault();
-  const email = document.getElementById('emailLogin').value;
-  const password = document.getElementById('passwordLogin').value;
-
-  try {
-    const userCredential = await signInWithEmailAndPassword(auth, email, password);
-    const user = userCredential.user;
-
-    const docRef = doc(db, "usuarios", user.email);
-    const docSnap = await getDoc(docRef);
-
-    if (docSnap.exists()) {
-      const rol = docSnap.data().rol;
-      if (rol === "admin" || rol === "arquitecto") {
-        window.location.href = "admin.html";
-      } else {
-        alert("No tienes permisos para acceder a esta sección.");
-      }
-    } else {
-      alert("No tienes permisos para acceder a esta sección.");
+document.getElementById('loginBtn').addEventListener('click', async (e) => {
+    e.preventDefault();
+  
+    const email = document.getElementById('email').value.trim();
+    const password = document.getElementById('password').value;
+    const error = document.getElementById('error');
+  
+    if (!email || !password) {
+      error.textContent = 'Por favor, completa ambos campos.';
+      return;
     }
-  } catch (error) {
-    alert("Error de inicio de sesión: " + error.message);
-  }
-});
+  
+    try {
+      const cred = await firebase.auth().signInWithEmailAndPassword(email, password);
+      const user = cred.user;
+  
+      const docRef = firebase.firestore().collection("usuarios").doc(user.email);
+      const docSnap = await docRef.get();
+  
+      if (docSnap.exists) {
+        const rol = docSnap.data().rol;
+        if (rol === "admin" || rol === "arquitecto") {
+          window.location.href = "admin.html";
+        } else {
+          error.textContent = "No tienes permisos para acceder a esta sección.";
+          firebase.auth().signOut();
+        }
+      } else {
+        error.textContent = "No se encontró tu información de rol.";
+        firebase.auth().signOut();
+      }
+    } catch (err) {
+      console.error(err);
+      error.textContent = "Error: " + err.message;
+    }
+  });
+  
