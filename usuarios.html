@@ -1,86 +1,17 @@
 <!DOCTYPE html>
-
 <html lang="es">
 <head>
-<meta charset="utf-8"/>
-<title>Gestión de Usuarios</title>
-<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<style>
-    body {
-      font-family: Arial, sans-serif;
-      background: #f3f5f9;
-      margin: 0;
-      padding: 20px;
-    }
-    h1 {
-      text-align: center;
-      color: #2e7d32;
-    }
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      margin-top: 20px;
-    }
-    th, td {
-      border: 1px solid #ddd;
-      padding: 10px;
-      text-align: center;
-    }
-    th {
-      background-color: #c8e6c9;
-    }
-    button {
-      background: #4caf50;
-      color: white;
-      border: none;
-      padding: 6px 12px;
-      border-radius: 6px;
-      cursor: pointer;
-    }
-    button:hover {
-      background: #388e3c;
-    }
-    .warning {
-      color: red;
-      font-weight: bold;
-      text-align: center;
-      margin-top: 20px;
-    }
-  </style>
+  <meta charset="UTF-8">
+  <title>Gestión de Usuarios</title>
+  <link rel="stylesheet" href="css/index.css">
 </head>
 <body>
-<h1>Panel de Gestión de Usuarios</h1>
-<div class="warning" id="warning"></div>
-<table id="tablaUsuarios">
-<thead>
-<tr>
-<th>Email</th>
-<th>Rol</th>
-<th>Modificar Rol</th>
-</tr>
-</thead>
-<tbody></tbody>
-</table>
-<!-- Firebase -->
+  <h2>Gestión de Usuarios</h2>
+  <div id="tabla-usuarios"></div>
 
-
-
-
-<script>
-  // Firebase SDKs desde CDN
-  document.write('<script src="https://www.gstatic.com/firebasejs/10.11.0/firebase-app.js"><\/script>');
-  document.write('<script src="https://www.gstatic.com/firebasejs/10.11.0/firebase-auth.js"><\/script>');
-  document.write('<script src="https://www.gstatic.com/firebasejs/10.11.0/firebase-firestore.js"><\/script>');
-</script><script>
-  const firebaseConfig = {
-    apiKey: "AIzaSyBxK_0Fa7OS5vgHc8SuHhDQBqvpK0uN_Pk",
-    authDomain: "aylluweb-f9250.firebaseapp.com",
-    projectId: "aylluweb-f9250",
-    storageBucket: "aylluweb-f9250.appspot.com",
-    messagingSenderId: "628363659588",
-    appId: "1:628363659588:web:d2124d4537a0c2af392f11"
-  };
-  firebase.initializeApp(firebaseConfig);
-  const db = firebase.firestore();
-</script></body>
+  <script src="https://www.gstatic.com/firebasejs/10.11.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.11.0/firebase-firestore-compat.js"></script>
+  <script src="js/firebase-init.js"></script>
+  <script src="js/usuarios.js"></script>
+</body>
 </html>
