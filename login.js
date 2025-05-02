@@ -1,38 +1,33 @@
-// Asegúrate de que Firebase ya esté inicializado en login.html antes de este script
+import { getAuth, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-auth.js";
+import { getFirestore, doc, getDoc } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-firestore.js";
+import { app } from './firebaseConfig.js'; // si tienes un archivo separado de configuración
 
-document.getElementById('loginBtn').addEventListener('click', async (e) => {
-    e.preventDefault();
-  
-    const email = document.getElementById('email').value.trim();
-    const password = document.getElementById('password').value;
-  
-    if (!email || !password) {
-      alert('Por favor, completa ambos campos.');
-      return;
-    }
-  
-    try {
-      const userCredential = await firebase.auth().signInWithEmailAndPassword(email, password);
-      const user = userCredential.user;
-  
-      const userDoc = await firebase.firestore().collection('usuarios').doc(user.email).get();
-  
-      if (userDoc.exists) {
-        const rol = userDoc.data().rol;
-  
-        if (rol === 'admin' || rol === 'arquitecto') {
-          window.location.href = 'admin.html';
-        } else {
-          alert('No tienes permisos para acceder a esta sección.');
-          firebase.auth().signOut();
-        }
+const auth = getAuth(app);
+const db = getFirestore(app);
+
+document.getElementById('loginForm').addEventListener('submit', async (e) => {
+  e.preventDefault();
+  const email = document.getElementById('emailLogin').value;
+  const password = document.getElementById('passwordLogin').value;
+
+  try {
+    const userCredential = await signInWithEmailAndPassword(auth, email, password);
+    const user = userCredential.user;
+
+    const docRef = doc(db, "usuarios", user.email);
+    const docSnap = await getDoc(docRef);
+
+    if (docSnap.exists()) {
+      const rol = docSnap.data().rol;
+      if (rol === "admin" || rol === "arquitecto") {
+        window.location.href = "admin.html";
       } else {
-        alert('Tu cuenta no tiene un rol asignado.');
-        firebase.auth().signOut();
+        alert("No tienes permisos para acceder a esta sección.");
       }
-    } catch (error) {
-      console.error('Error en inicio de sesión:', error);
-      alert('Correo o contraseña incorrectos.');
+    } else {
+      alert("No tienes permisos para acceder a esta sección.");
     }
-  });
-  
+  } catch (error) {
+    alert("Error de inicio de sesión: " + error.message);
+  }
+});
